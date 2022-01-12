@@ -1,0 +1,149 @@
+
+
+# 0. '파이참 프로젝트' 만들기! not django
+ 파이참 프로젝트를 위한 가상환경_venv_을 만든다. 한편, 파이참 프로젝트를 위한 main.py 자동생성(삭제해도됨)
+ 파이참 프로젝트 하위에
+ 그다음 프레임워크별_django, flask 등_ 프로젝트
+
+ 대조군 프로젝트 : https://docs.djangoproject.com/ko/3.1/intro/tutorial01/
+
+
+# 1. 쉘프롬트 상에서 현재 가상환경에 'django' 프레임워크 다운로드 not flask
+python -m django --version
+로 쟝고 버젼 확인, 없으면
+pip install django
+
+# 2. 쉘프롬트 상에서 django 프레임워크 프로젝트 만들기
+$ django-admin startproject devsacti_django
+
+하면 devsacti_django라는 쟝고 프로젝트 디렉토리가 생기고
+그 하위에 동일한 명의 디렉토리에 환경설정용 ~.py들 생성
+
+# 3. 파이참 하위 django 디렉토리로 이동 후 runserver 체크
+cd devsacti_django
+python manage.py runserver
+(이유는 모르겠지만 runserver로 sqlite 자동 생성됨)
+
+#4. 파이참 프로젝트 하위에, 쟝고 프로젝트 하위에, 앱만들고, 쟝고프로젝트에 연결
+python manage.py startapp scraping
+
+결과적으로 아래와 같음.
+
+devsacti_pycharm
+ devsacti_django
+  (config of)devsacti_django 
+  scrapping
+
+## 생략가능
+##4.5 url파일 추가를 통해 앱이 쟝고 프로젝트에 연결 설정 및 확인
+scrapping.views.py에서
+
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+추가 후
+
+앱의 urls.py 생!성! 및 설정
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+
+그 다음 
+쟝고 config인 devsacti_django디렉토리 하위 urls.py
+ urlpatterns에 경로 설정 및 추가
+
+# 5. django 프로젝트에서 sqlite활용하기
+정확한 역할은 모르나 
+python manage.py migrate
+
+*필드=칼럼, 레코드=행 in DB
+앱의 models.py 에 인풋값에 따른 클래스 선언 for 테이블
+
+그 다음 앱 연결
+INSTALLED_APPS = [
+    # added app
+    # 작성 후 , 필수
+    'scraping.apps.ScrapingConfig',
+    
+    # basic
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+
+
+python manage.py makemigration scraping
+
+makemigrations 을 실행시킴으로서, 당신이 모델을 변경시킨 사실과(이 경우에는 새로운 모델을 만들었습니다) 이 변경사항을 migration으로 저장시키고 싶다는 것을 Django에게 알려줍니다.
+
+이 앱을 위한 데이터베이스 스키마 생성(CREATE TABLE 문)
+완료
+
+
+더 구체적으로 보고 싶으면
+
+...\> py manage.py sqlmigrate scraping 0001
+
+BEGIN;
+--
+-- Create model Question
+--
+CREATE TABLE "polls_question" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "question_text" varchar(200) NOT N
+ULL, "pub_date" datetime NOT NULL);
+--
+-- Create model Choice
+--
+CREATE TABLE "polls_choice" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "choice_text" varchar(200) NOT NULL,
+ "votes" integer NOT NULL, "question_id" integer NOT NULL REFERENCES "polls_question" ("id") DEFERRABLE INITIALLY
+DEFERRED);
+CREATE INDEX "polls_choice_question_id_c5b4b260" ON "polls_choice" ("question_id");
+COMMIT;
+
+
+마지막으로 다시
+py manage.py migrate
+
+하면 scraping 앱의 migrations에 일종의 log가 남음
+
+migrate를 모델 정의하기전에도 했는데
+일종의 commit처럼 쟝고에 시작과 끝을 알리는 것으로 보임
+
+# 그외 파일 간 관계
+
+#변수이동
+큰 틀은 Model->views->(templates)html 로 일단 이해하고,
+변수가 별개의 파일들에 선언되서 한눈에 안보이는데, html은 단순 print쯤으로 인식하자
+
+참고로,
+templates는
+base 
+=> index, 설문리스트 보여줌(admin을 통해 이미 설정,db접근 필요)
+=> detail, 설문별 선택지 보여줌(admin을 통해 이미 설정,db접근 필요)
+=> result, 선택지별 결과 보여줌 순으로 작동(admin을 통해 이미 설정,db접근 필요)
+
+views.py의 detail 메소드의 아규먼트가
+question_id이고 이를 detail.html이 사용하는 것을 확인
+
+config가 최 하단 레이어로서 app에 대응하는 polls를 뒷받침
+;config.urls가 특히 주소 경로를 호출하는데 역할
+
+app에 대응하는 이 polls이고,
+
+config와 적절히 연결되야할
+
+polls.urls에서 보다 구체적으로 주소경로를 설정한다.
+
+그 다음 view라는 MVC로 따지면 controller가
+
+선언된 메소드를 통해서
+
+model과 templete(간단히 html)을 연결해준다.
