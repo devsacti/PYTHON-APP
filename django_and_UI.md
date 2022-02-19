@@ -24,11 +24,13 @@ STATICFILES_DIRS=[
 
 
 그리고 아래와 같은 추가 경로 삽입
+```
 
 <link rel="stylesheet" href="{% static 'css/product-result.css' %}">
 
 <img src="{% static 'assets/img/prod1.jpg' %}">
 
+```
 
 
 ## 참고자료

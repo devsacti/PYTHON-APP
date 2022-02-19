@@ -134,23 +134,6 @@ def index(request):
     return HttpResponse(res)
 ```
 
-## API와 HTML 연결 및 설정
-config에서
-```
-urlpatterns = [
-    path('admin/', admin.site.urls),
-
-    # 앱의 urls 파일 설정
-    path('', include('ui.urls'))
-]
-```
-
-ui 앱 디렉토리에서 
-```
-def templatesAPI1(request):
-
-    return render(request,'product-result.html')
-```
 
 
 ## 참고자료
