@@ -8,7 +8,7 @@ IDE : pycharm
 
 Overview : 파이썬 기반 데이터분석 플랫폼 구현 with html-css, ajax of js , views(BeautifulSoup), sqlite3, AWS EC2 to deploy
 
-## [primary_pycharm_prj](primary_pycharm_prj.md)
+## [primary_pycharm_prj](/Impls/primary_pycharm_prj/)
 IDE : pycharm
 
 Overview : django를 기반으로 한 HTML,CSS, JS 활용 프로젝트

@@ -1,0 +1,4 @@
+# Project exclude paths
+/venv/
+
+/Impls/primary_pycharm_prj
