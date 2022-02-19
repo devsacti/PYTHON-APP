@@ -113,8 +113,14 @@ urlpatterns = [
 
 ```
 
-# Next setting
+# Next 
 [django_and_sqlite](django_and_sqlite.md)
 
-# 출처
+[django_and_UI(html+css+js)](django_and_UI.md)
+
+# 최종결과화면
+
+![html,css,js,img on django](img.jpg)
+
+# 참고자료
 https://docs.djangoproject.com/ko/4.0/intro/tutorial01/

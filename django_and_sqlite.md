@@ -105,7 +105,7 @@ settings의 plugins에서 Database Navigator 설치 후 재시작
 
 나의 경우 클라이언트 툴로 추가함
 
-## 테이블 데이터 조회
+## 파이썬 함수를 통한 테이블 데이터 조회 API
 
 ```
 ...
@@ -134,5 +134,26 @@ def index(request):
     return HttpResponse(res)
 ```
 
+## API와 HTML 연결 및 설정
+config에서
+```
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    # 앱의 urls 파일 설정
+    path('', include('ui.urls'))
+]
+```
+
+ui 앱 디렉토리에서 
+```
+def templatesAPI1(request):
+
+    return render(request,'product-result.html')
+```
+
+
 ## 참고자료
+https://somjang.tistory.com/entry/Python-Python%EC%97%90%EC%84%9C-Sqlite3-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+
 https://docs.djangoproject.com/ko/4.0/intro/tutorial02/#writing-your-first-django-app-part-2
