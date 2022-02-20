@@ -1,7 +1,18 @@
 # django 프로젝트에 html과 static(css+js+img) 연동하기
 
 ## API와 HTML 연결 및 설정
-ui 앱 디렉토리에서 
+우선 setting에 templates 폴더 위치 추가
+
+```
+# 템플릿 디렉토리의 위치를 변경
+TEMPLATES = [ {
+	...
+    'DIRS' : [BASE-DIR / 'templates'],
+    ...
+} ]
+```
+
+ui 앱 디렉토리 views에서 
 
 ```
 def templatesAPI1(request):
@@ -34,4 +45,6 @@ STATICFILES_DIRS=[
 
 
 ## 참고자료
+https://angelplayer.tistory.com/175?category=951067
+
 https://free-eunb.tistory.com/42
