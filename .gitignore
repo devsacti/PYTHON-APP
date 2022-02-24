@@ -1,2 +1,3 @@
 # Project exclude paths
 /venv/
+/Impls/primary_pycharm_prj/django_prj/config/setting.py
